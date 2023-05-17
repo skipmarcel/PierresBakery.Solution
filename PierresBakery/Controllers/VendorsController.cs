@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace PierresBakery.Controllers
 {
-  public class VendorController : Controller
+  public class VendorsController : Controller
   {
 
    [HttpGet("/vendors")]
@@ -15,16 +15,43 @@ namespace PierresBakery.Controllers
     }
 
     [HttpGet("/vendors/new")]
-    public ActionResult CreateForm()
+    public ActionResult New()
     {
       return View();
     }
 
     [HttpPost("/vendors")]
-    public ActionResult Create(string description)
+    public ActionResult Create(string vendorName)
     {
-      Vendor myVendor = new Vendor(description);
+      Vendor newVendor = new Vendor(vendorName);
       return RedirectToAction("Index");
+    }
+
+    [HttpGet("/vendors/{id}")]
+    public ActionResult Show(int id)
+    {
+      Dictionary<string, object> model = new Dictionary<string, object>();
+      Vendor selectedVendor = Vendor.Find(id);
+      List<Order> vendorOrders = selectedVendor.Orders;
+      model.Add("vendor", selectedVendor);
+      model.Add("orders", vendorOrders);
+      return View(model);
+    }
+
+
+    // This one creates new Order within a given Vendor, not new Vendors:
+
+    [HttpPost("/vendors/{vendorId}/orders")]
+    public ActionResult Create(int vendorId, string orderDescription)
+    {
+      Dictionary<string, object> model = new Dictionary<string, object>();
+      Vendor foundVendor = Vendor.Find(vendorId);
+      Order newOrder = new Order(orderDescription);
+      foundVendor.AddOrder(newOrder);
+      List<Order> vendorOrders = foundVendor.Orders;
+      model.Add("orders", vendorOrders);
+      model.Add("vendor", foundVendor);
+      return View("Show", model);
     }
 
   }
