@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 
-namespace VendorOrders.Models
+namespace PierresBakery.Models
 {
-  public class Item
+  public class Vendor
   {
     public string Description { get; set; }
-    private static List<Item> _instances = new List<Item> { };
+    private static List<Vendor> _instances = new List<Vendor> { };
 
-    public Item(string description)
+    public Vendor(string description)
     {
       Description = description;
       _instances.Add(this);
     }
 
-    public static List<Item> GetAll()
+    public static List<Vendor> GetAll()
     {
       return _instances;
     }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using VendorOrders.Models;
+using PierresBakery.Models;
 
-namespace VendorOrders.Controllers
+namespace PierresBakery.Controllers
 {
   public class HomeController : Controller
   {
